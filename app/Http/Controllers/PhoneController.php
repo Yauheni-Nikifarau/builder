@@ -29,7 +29,7 @@ class PhoneController extends Controller {
             ->setCamera( $request->get( 'camera' ) )
             ->setScreen( $request->get( 'screen' ) )
             ->setCores( $request->get( 'cores' ) )
-            ->savePhone();
+            ->getPhone();
 
         return redirect( '/' );
     }

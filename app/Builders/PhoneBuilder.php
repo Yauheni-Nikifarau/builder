@@ -2,24 +2,28 @@
 
 namespace App\Builders;
 
+use App\Interfaces\PhoneBuilderInterface;
 use App\Models\Phone;
 use App\Models\PhoneMeta;
 
-class PhoneBuilder {
+class PhoneBuilder implements PhoneBuilderInterface {
 
     public $phone;
     public $phonesMeta = [];
 
 
     public function __construct () {
-        $this->create();
-    }
-
-    public function create () {
         $this->phone = new Phone();
     }
 
-    public function setName ($name) {
+    public function reset () : PhoneBuilder {
+        $this->phone = new Phone();
+        $this->phonesMeta = [];
+
+        return $this;
+    }
+
+    public function setName ($name) : PhoneBuilder {
         if (!empty($name)) {
             $this->phone->name = $name;
         }
@@ -27,7 +31,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setPrice ($price) {
+    public function setPrice ($price) : PhoneBuilder {
         if (!empty($price)) {
             $this->phone->price = $price;
         }
@@ -35,7 +39,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setCamera ($camera) {
+    public function setCamera ($camera) : PhoneBuilder {
         if (!empty($camera)) {
             $phoneMeta = new PhoneMeta();
             $phoneMeta->key = 'camera';
@@ -46,7 +50,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setRam ($ram) {
+    public function setRam ($ram) : PhoneBuilder {
         if (!empty($ram)) {
             $phoneMeta = new PhoneMeta();
             $phoneMeta->key = 'ram';
@@ -57,7 +61,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setScreen ($screen) {
+    public function setScreen ($screen) : PhoneBuilder {
         if (!empty($screen)) {
             $phoneMeta = new PhoneMeta();
             $phoneMeta->key = 'screen';
@@ -68,7 +72,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setMemory ($memory) {
+    public function setMemory ($memory) : PhoneBuilder {
         if (!empty($memory)) {
             $phoneMeta = new PhoneMeta();
             $phoneMeta->key = 'memory';
@@ -79,7 +83,7 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function setCores ($cores) {
+    public function setCores ($cores) : PhoneBuilder {
         if (!empty($cores)) {
             $phoneMeta = new PhoneMeta();
             $phoneMeta->key = 'cores';
@@ -90,12 +94,15 @@ class PhoneBuilder {
         return $this;
     }
 
-    public function savePhone () {
-        $this->phone->save();
+    public function getPhone () : Phone {
+        $phone = $this->phone;
+        $phone->save();
         foreach ($this->phonesMeta as $phoneMeta) {
-            $phoneMeta->phone_id = $this->phone->id;
+            $phoneMeta->phone_id = $phone->id;
             $phoneMeta->save();
         }
-        return $this->phone;
+        $this->reset();
+
+        return $phone;
     }
 }
