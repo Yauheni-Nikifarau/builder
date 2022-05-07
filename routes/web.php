@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PhoneController::class, 'index']);
 Route::get('/create', [PhoneController::class, 'showCreatePage']);
 Route::post('/create', [PhoneController::class, 'createPhone']);
+Route::get('/create-on-base', [PhoneController::class, 'showCreateOnBasePage']);
+Route::post('/create-on-base', [PhoneController::class, 'createPhoneOnBase']);
 

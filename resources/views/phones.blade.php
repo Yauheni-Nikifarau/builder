@@ -44,6 +44,8 @@
 
         <a href="/create" class="btn btn-primary mt-2">Add New Phone</a>
 
+        <a href="/create-on-base" class="btn btn-primary mt-2">Add New Phone On Base</a>
+
         <table class="table">
             <thead>
             <tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Builders\PhoneBuilder;
+use App\Builders\PhoneBuilderManager;
 use App\Models\Phone;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,28 @@ class PhoneController extends Controller {
         return redirect( '/' );
     }
 
+    public function createPhoneOnBase( Request $request ) {
+        $builder = new PhoneBuilder();
+        $boss    = new PhoneBuilderManager( $builder );
+
+        $phoneType = $request->get( 'phone_template' );
+        if ( ! empty( $phoneType ) ) {
+            switch ( $phoneType ) {
+                case 'iphone_12':
+                    $boss->createIphone12( $request->get( 'price' ), $request->get( 'memory' ) );
+                    break;
+                case 'xiaomi_redmi_note_4':
+                    $boss->createXiaomiRedmiNote4( $request->get( 'price' ), $request->get( 'memory' ) );
+                    break;
+                case 'samsung_15':
+                    $boss->createSamsung15( $request->get( 'price' ), $request->get( 'memory' ) );
+                    break;
+            }
+        }
+
+        return redirect( '/' );
+    }
+
     private function phonesResource( $phones ) {
         $resultArray = [];
         foreach ( $phones as $phone ) {
@@ -54,5 +77,9 @@ class PhoneController extends Controller {
 
     public function showCreatePage() {
         return view( 'create-phone' );
+    }
+
+    public function showCreateOnBasePage() {
+        return view( 'create-on-base-phone' );
     }
 }

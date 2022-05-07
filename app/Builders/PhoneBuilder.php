@@ -8,8 +8,8 @@ use App\Models\PhoneMeta;
 
 class PhoneBuilder implements PhoneBuilderInterface {
 
-    public $phone;
-    public $phonesMeta = [];
+    private $phone;
+    private $phonesMeta = [];
 
 
     public function __construct () {
